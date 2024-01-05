@@ -19,6 +19,9 @@ app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 
 // Define routes
+app.use('/',(req,res,next)=>{
+    res.send("ESTA ES UNA API")
+})
 app.use('/user',routeUser);
 app.use('/compania',routeCompania);
 // Start the server
