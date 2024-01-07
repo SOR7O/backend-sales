@@ -5,10 +5,11 @@ const productoSchema = new mongoose.Schema({
     descripcion: { type: String, required: true },
     disponible: {
         type: Boolean,
-        required: false,
+        required: true,
         default: true,
     },
     idCompania: { type: mongoose.Types.ObjectId, required: true },
+    idUser: { type: mongoose.Types.ObjectId, required: true },
     imagen: {
         data: Buffer,
         contentType: String

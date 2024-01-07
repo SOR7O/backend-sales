@@ -4,11 +4,15 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const db= require("./db/db")
+const app = express();
+const port = 3000; // Change this to your desired port
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+    db
+});
 const routeUser= require("./routes/user.routes");
 const routeCompania= require("./routes/compania.routes");
 // Create an Express app
-const app = express();
-const port = 3000; // Change this to your desired port
 
 // Enable CORS for all routes
 app.use(cors());
@@ -20,12 +24,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // Define routes
 app.get('/',(req,res,next)=>{
-    res.send("ESTA ES UNA API")
+    res.send("ESTA ES UNA API 😁😁")
 })
 app.use('/user',routeUser);
 app.use('/compania',routeCompania);
+app.use('/inventario',routeCompania);
+app.use('/producto',routeCompania);
+app.use('/pedido',routeCompania);
 // Start the server
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
-    db
-});
+ module.exports=app;

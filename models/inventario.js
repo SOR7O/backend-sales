@@ -7,6 +7,8 @@ const inventarioSchema = new mongoose.Schema({
     cantidadUtilizada: { type: mongoose.Types.Decimal128, required: true },
     stock: { type: mongoose.Types.Decimal128, required: true },
     fecha: { type: Date, default: Date.now() },
+    idCompania:{type:mongoose.Types.ObjectId,required:true},
+    idUsuario:{type:mongoose.Types.ObjectId, required:true}
 
 },
     {

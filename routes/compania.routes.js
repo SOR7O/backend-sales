@@ -6,8 +6,8 @@ const Compania= require("../controllers/compania.controllers");
 const authenticate= require("../middleware/authenticate")
 //RUTAS DE CRUD DE COMPANIAS
 router.get('/getCompanias',authenticate.authMiddleware,Compania.getCompania);
-router.post('/addCompania',Compania.createCompania);
-router.post('/updatetCompania',Compania.updateCompania);
+router.post('/createCompania',Compania.createCompania);
+router.post('/updateCompania',Compania.updateCompania);
 router.post('/deleteCompania',Compania.deleteCompania);
 
 module.exports= router;

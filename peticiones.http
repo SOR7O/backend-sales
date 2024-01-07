@@ -1,0 +1,20 @@
+
+# GET http://localhost:3000/user/login
+# Content-Type: application/json
+
+# {
+#     "username": "asorto", "password":12345
+# }
+
+
+POST http://localhost:3000/compania/createCompania
+Content-Type: application/json
+
+{
+            "nombre": "DEVASO",
+            "direccion": "JESUS DE OTORO",
+            "telefono": "89929127",
+            "correo": "angelsorto330@gmail.com",
+            "logo": "No hay",
+            "nombrePropietario": "Angel",
+}
