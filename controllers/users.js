@@ -18,7 +18,7 @@ const getUser = async (req, res, next) => {
     }
 }
 const createUser = async (req, res, next) => {
-    // console.log(req.body)
+    // 
 
     const { nombre, telefono, direccion, correo, username, password, idCompania, role } = req.body;
     try {
@@ -45,7 +45,7 @@ const createUser = async (req, res, next) => {
 
         if (findUser.length === 0) {
             await createUser.save().then((succ) => {
-                res.status(201).json({ type: "ok", data: createUser })
+                res.status(202).json({ type: "ok", data: createUser })
             }
             ).catch((err) => { res.send({ "res": 200, "data": err.error, "message": "Ha ocurrido un error comunicate con el administrador" }) });
         } else {
@@ -93,25 +93,27 @@ const deleteUser = async (req, res, next) => {
 
 //login
 const login = async (req, res, next) => {
+
     const { password, username } = req.body;
 
     try {
 
         if (!password || !username) return res.status(200).json({ message: 'Campos vacios' });
         const user = await UserModel.findOne({ username: req.body.username });
+        
         if (!user) return res.status(200).json({ message: 'User not found' });
 
         const validPassword = await bcrypt.compare(req.body.password, user.password);
         if (!validPassword) return res.status(200).json({ message: 'Contraseña incorrecta' });
         const token = await jwt.sign({ id: user._id }, process.env.secretKey, { expiresIn: 84600 });
-        res.status(200).json({ message: 'Logged in', token: token });
+        res.status(200).json({ message: 'Logged in', token: token ,idUser:user._id,idCompania:user.idCompania,typeUser:user.typeUser});
     } catch (error) {
         res.status(400).json({ type: "error", message: 'Ha ocurrido un error comunicate con el administrador' })
     }
 }
 
 // api add roles
-const roles = async (req, res, next) => {
+const createRoles = async (req, res, next) => {
     const { role } = req.body;
     try {
 
@@ -126,11 +128,49 @@ const roles = async (req, res, next) => {
         res.status(400).json({ type: "error", message: 'Ha ocurrido un error comunicate con el administrador' })
     }
 }
+
+const getRoles = async (req, res, next) => {
+    try {
+        await RoleModel.find().then((success) => {
+            res.status(200).json({ type: "ok", data: success })
+        })
+    } catch (error) {
+        res.status(204).json({ type: "error", message: "Ha ocurrido un error, comunicate con el administrador." })
+    }
+}
+
+const updateRole = async (req, res, next) => {
+    const { role, _id } = req.body;
+    try {
+        await RoleModel.findByIdAndUpdate(_id, { nombre: role }).then((success) => {
+            res.status(200).json({ type: "ok", data: success })
+        });
+    } catch (error) {
+        res.status(204).json({ type: "error", message: "Ha ocurrido un error, comunicate con el administrador." })
+    }
+}
+const deleteRole = async (req, res, next) => {
+    const {  _id } = req.body;
+    try {
+        await RoleModel.findByIdAndDelete(_id).then((success) => {
+            res.status(200).json({ type: "ok", data: success })
+        });
+    } catch (error) {
+        res.status(204).json({ type: "error", message: "Ha ocurrido un error, comunicate con el administrador." })
+    }
+}
+
+
+
+
 module.exports = {
     getUser,
     createUser,
     updateUser,
     deleteUser,
     login,
-    roles
+    createRoles,
+    getRoles,
+    updateRole,
+    deleteRole
 }

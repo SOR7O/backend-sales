@@ -1,0 +1,15 @@
+POST http://localhost:3000/cai/saveCai
+Content-Type: application/json
+
+{
+
+        "numeroAutorizacion": "35BD6A-0195F4-B34BAA-8B7D13-31791A-2D",
+        "fechaInicio": "2024-01-07T02:37:41.042+00:00",
+        "fechaFin": "2024-12-31T02:37:41.042+00:00",
+        "rangoInicial": "0",
+        "rangoFinal": "1000",
+        "idCompania": "659a0eb1640f5c6966d54864"
+}
+
+
+# GET http://localhost:3000/

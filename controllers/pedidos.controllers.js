@@ -58,7 +58,7 @@ const createPedido= async(req, res, next)=>{
             subtotal:subtotal,
             total:total});
         await createPedid.save().then((succ) => {
-            res.status(201).json({ type: "ok", data:succ })
+            res.status(202).json({ type: "ok", data:succ })
         }
         ).catch((err) => { res.status(204).json({ "data": err.error, "message": "Ha ocurrido un error comunicate con el administrador" }) });
     } catch (err) {
@@ -79,7 +79,7 @@ const {idProducto,idUsuario,cantidad,subtotal,total,confirmado} = req.body;
             total:total});
         
     await PedidoModel.findByIdAndUpdate({_id:id}, updatePedidoA).then((success) => {
-            res.status(201).json({ type: "ok", data: success })
+            res.status(202).json({ type: "ok", data: success })
         }).catch((err) => {
             res.status(204).json({ type: "ok", message: "Ha ocurrido un error, comunicate con el administrador", error: err })
         })

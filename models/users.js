@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const CompaniaModel = require("./compania");
+const RoleModel = require("./roles");
 
 const userSchema = new mongoose.Schema({
   nombre: {
@@ -20,6 +22,7 @@ const userSchema = new mongoose.Schema({
   idCompania: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
+    ref:'compania'
   },
   typeUser: {
     type: Number,
@@ -43,7 +46,8 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: mongoose.Schema.Types.ObjectId,
-    ref:"role",
+    required:true,
+    ref:"role"
   },
   is_activated: {
     type: Boolean,

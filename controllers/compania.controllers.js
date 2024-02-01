@@ -1,8 +1,8 @@
 const CompaniaModel = require('../models/compania');
 
 
-const getCompania = (req, res, next) => {
-    CompaniaModel.find({}).then((compa) => {
+const getCompania = async(req, res, next) => {
+    await CompaniaModel.find({}).then((compa) => {
         res.status(200).json({ "type": "ok", data: compa });
     })
 }
@@ -29,7 +29,7 @@ const createCompania = async (req, res, next) => {
 const updateCompania = async (req, res, next) => {
 
     const { nombre, telefono, direccion, correo, logo, nombrePropietario ,_id,is_activated} = req.body;
-    console.log(req.body);
+    
     try {
 
         const updateCompania = ({
@@ -43,9 +43,9 @@ const updateCompania = async (req, res, next) => {
         })
 
         await CompaniaModel.findByIdAndUpdate({_id:_id}, updateCompania ).then((success) => {
-            res.status(201).json({ type: "ok"})
+            res.status(202).json({ type: "ok"})
         }).catch((err) => {
-            console.log(err)
+            
             res.status(204).json({ type: "ok", message: "Ha ocurrido un error, comunicate con el administrador", error: err })
         })
     } catch (error) {
@@ -62,7 +62,7 @@ const deleteCompania = async (req, res, next) => {
             res.status(200).json({ type: "ok", message: "Eliminado correctamente", data: succ })
         }).catch((err) => res.status(400).json({ "message": "Ha ocurrido un error" }))
     } catch (error) {
-        console.log(error);
+        
         res.status(400).json({ type: "error", message: 'Ha ocurrido un error comunicate con el administrador' })
     }
 }

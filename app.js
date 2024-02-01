@@ -12,15 +12,20 @@ app.listen(port, () => {
 });
 const routeUser= require("./routes/user.routes");
 const routeCompania= require("./routes/compania.routes");
+const routeProducto= require("./routes/productos.routes");
+const routePedido= require("./routes/pedidos.routes");
+const routeInventario= require("./routes/inventario.routes");
+const routeCai= require("./routes/factura.routes");
+
 // Create an Express app
 
 // Enable CORS for all routes
 app.use(cors());
 // Middleware
 app.use(morgan('dev')); // Logging middleware
-app.use(bodyParser.json()); // JSON parsing middleware
 app.use(express.static('public'));
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json({limit: '50mb'})); // JSON parsing middleware
+app.use(express.urlencoded({limit: '50mb', extended: true }));
 
 // Define routes
 app.get('/',(req,res,next)=>{
@@ -28,8 +33,9 @@ app.get('/',(req,res,next)=>{
 })
 app.use('/user',routeUser);
 app.use('/compania',routeCompania);
-app.use('/inventario',routeCompania);
-app.use('/producto',routeCompania);
-app.use('/pedido',routeCompania);
+app.use('/producto',routeProducto);
+app.use('/pedido',routePedido);
+app.use('/inventario',routeInventario);
+app.use('/cai',routeCai);
 // Start the server
  module.exports=app;

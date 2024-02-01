@@ -7,14 +7,14 @@ const inventarioSchema = new mongoose.Schema({
     cantidadUtilizada: { type: mongoose.Types.Decimal128, required: true },
     stock: { type: mongoose.Types.Decimal128, required: true },
     fecha: { type: Date, default: Date.now() },
-    idCompania:{type:mongoose.Types.ObjectId,required:true},
-    idUsuario:{type:mongoose.Types.ObjectId, required:true}
+    idCompania:{type:mongoose.Types.ObjectId,required:true, ref:'compania'},
+    idUsuario:{type:mongoose.Types.ObjectId, required:true, ref:'users'}
 
 },
     {
         timestamps: true,
     });
 
-const inventarioModel = inventarioSchema.model("inventario", inventarioSchema);
+const inventarioModel = mongoose.model("inventario", inventarioSchema);
 
 module.exports = inventarioModel;

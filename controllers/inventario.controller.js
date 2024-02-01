@@ -24,7 +24,7 @@ const createInventario = async (req, res, next) => {
             idUser: idUser
         });
         await createInventario.save().then((succ) => {
-            res.status(201).json({ type: "ok", data: succ })
+            res.status(202).json({ type: "ok", data: succ })
         }
         ).catch((err) => { res.send({ "res": 200, "data": err.error, "message": "Ha ocurrido un error comunicate con el administrador" }) });
     } catch (error) {

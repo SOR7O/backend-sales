@@ -8,14 +8,13 @@ const productoSchema = new mongoose.Schema({
         required: true,
         default: true,
     },
-    idCompania: { type: mongoose.Types.ObjectId, required: true },
-    idUser: { type: mongoose.Types.ObjectId, required: true },
+    idCompania: { type: mongoose.Types.ObjectId, required: true , ref:'compania'},
+    idUser: { type: mongoose.Types.ObjectId, required: true , ref:'users'},
     imagen: {
-        data: Buffer,
-        contentType: String
+        type:String
     },
-    precio:{type:mongoose.Types.Decimal128, required:true}
+    precio: {type:mongoose.Types.Decimal128, required:true}
 });
 
-const ProductoModel = productoSchema.model("productos", productoSchema);
+const ProductoModel = mongoose.model("productos", productoSchema);
 module.exports = ProductoModel;
