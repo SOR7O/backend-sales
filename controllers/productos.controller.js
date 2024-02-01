@@ -6,6 +6,7 @@ const getProducto = async (req, res, next) => {
 
         // await ProductoModel.find().populate("idCompania").then((succ) => { console.log(succ) }).catch(error => console.log(error));
         await ProductoModel.find({}).populate(["idCompania", "idUser"]).then((prod) => {
+            console.log(prod)
             res.status(200).json({ "type": "ok", data: prod });
         })
     } catch (error) {
@@ -17,13 +18,15 @@ const getProductoByCompania = async (req, res, next) => {
 
 
     const { id } = req.body;
+    console.log(req.body);
 
     try {
         await ProductoModel.find({ idCompania: id }).populate(["idCompania", "idUser"]).then((prod) => {
+            console.log(prod)
             res.status(200).json({ "type": "ok", data: prod });
         })
     } catch (error) {
-
+console.log(error);
         res.status(202).json({ type: "error", message: 'Ha ocurrido un error comunicate con el administrador' })
 
     }

@@ -5,11 +5,16 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const db= require("./db/db")
 const app = express();
+
 const port = 3000; // Change this to your desired port
+
+
 app.listen(port, () => {
+
     console.log(`Server is running on http://localhost:${port}`);
     db
 });
+
 const routeUser= require("./routes/user.routes");
 const routeCompania= require("./routes/compania.routes");
 const routeProducto= require("./routes/productos.routes");
