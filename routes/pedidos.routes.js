@@ -6,10 +6,10 @@ const Pedidos= require("../controllers/pedidos.controllers");
 const authenticate= require("../middleware/authenticate")
 //RUTAS DE CRUD DE Invenarios
 router.get('/getPedidos',authenticate.authMiddleware,Pedidos.getPedidos);
-router.get('/getPedidosByCompania/:id',authenticate.authMiddleware,Pedidos.getPedidosByCompania);
-router.get('/getPedidosByUser/:id',authenticate.authMiddleware,Pedidos.getPedidosByUser);
+router.post('/getPedidosByCompania',authenticate.authMiddleware,Pedidos.getPedidosByCompania);
+router.post('/getPedidosByUser',authenticate.authMiddleware,Pedidos.getPedidosByUser);
 router.post('/addPedido',Pedidos.createPedido);
-router.post('/updatePedido/:id',Pedidos.updatePedido);
-router.post('/deletePedido/:id',Pedidos.deletePedido);
+router.post('/updatePedido',Pedidos.updatePedido);
+router.post('/deletePedido',Pedidos.deletePedido);
 
 module.exports= router;

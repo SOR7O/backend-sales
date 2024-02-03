@@ -3,7 +3,7 @@ const PedidoModel= require("../models/pedidos");
 const getPedidos= async(req, res, next)=>{
     try {
         
-        await PedidosModel.find({}).then((succ) => { 
+        await PedidoModel.find({}).then((succ) => { 
             res.status(200).json({ type: "ok", data: succ })
         })
         .catch((err) => { res.send(
@@ -19,7 +19,7 @@ const getPedidosByCompania= async(req, res, next)=>{
     const {id}=req.params
     try {
         
-        await PedidosModel.find({idCompania:id}).then((succ) => { 
+        await PedidoModel.find({idCompania:id}).then((succ) => { 
             res.status(200).json({ type: "ok", data: succ })
         })
         .catch((err) => { res.send(
@@ -32,35 +32,41 @@ const getPedidosByCompania= async(req, res, next)=>{
     }
 }
 const getPedidosByUser= async(req, res, next)=>{
-    const {id}=req.params
+    const {id}=req.body
     try {
-        
-        await PedidosModel.find({idUser:id}).then((succ) => { 
+        console.log(id);
+        await PedidoModel.find({idUsuario:id}).populate(['idProductos','idUsuario']).then((succ) => { 
             res.status(200).json({ type: "ok", data: succ })
         })
-        .catch((err) => { res.send(
-            { "res": 204, 
-            "data": err.error, 
+        .catch((err) => { res.status(400).json(
+            { 
+                "res": 204, 
+            "data": err, 
             "message": "Ha ocurrido un error comunicate con el administrador" })
         });
     } catch (error) {
+        console.log(error);
         return res.status(400).json({ type: "error", message: 'Ha ocurrido un error comunicate con el administrador' })           
     }
 }
 
 const createPedido= async(req, res, next)=>{
-    const {idProducto,idUsuario,cantidad,subtotal,total} = req.body;
+    const {idProducto,idUsuario,cantidad,subtotal,total,impuesto} = req.body;
+    console.log(req.body)
     try {
         const createPedid=new PedidoModel({
             idProducto:idProducto,
             idUsuario:idUsuario,
             cantidad:cantidad,
+            impuesto:impuesto,
             subtotal:subtotal,
             total:total});
-        await createPedid.save().then((succ) => {
-            res.status(202).json({ type: "ok", data:succ })
-        }
-        ).catch((err) => { res.status(204).json({ "data": err.error, "message": "Ha ocurrido un error comunicate con el administrador" }) });
+            await PedidoModel.insertMany(req.body)
+            .then((succ) => {
+                res.status(202).json({ type: "ok", data:succ })
+            }
+            ).catch((err) => { res.status(204).json({ "data": err.error, "message": "Ha ocurrido un error comunicate con el administrador" }) });
+            // await createPedid.save()
     } catch (err) {
         res.status(400).json({ "type": "fail", "error": err, message: "Ha ocurrido un error comunicate con el administrador" })
     }
