@@ -9,6 +9,7 @@ const pedidoSchema = new mongoose.Schema({
     cantidad: { type: Number, required: true },
     subtotal: { type: mongoose.Types.Decimal128, required: true },
     total: { type: mongoose.Types.Decimal128, required: true },
+    impuesto: { type: mongoose.Types.Decimal128, required: true },
     confirmado: {
         type: Boolean,
         required: false,

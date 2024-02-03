@@ -93,7 +93,6 @@ const updateProducto = async (req, res, next) => {
     }
 }
 const deleteProducto = async (req, res, next) => {
-    console.log(req.body);
     const { _id } = req.body
     try {
 
