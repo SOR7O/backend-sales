@@ -10,6 +10,7 @@ router.post('/getPedidosByCompania',authenticate.authMiddleware,Pedidos.getPedid
 router.post('/getPedidosByUser',authenticate.authMiddleware,Pedidos.getPedidosByUser);
 router.post('/addPedido',Pedidos.createPedido);
 router.post('/updatePedido',Pedidos.updatePedido);
+router.post('/updatePedidoEstado',Pedidos.confirmarPedido);
 router.post('/deletePedido',Pedidos.deletePedido);
 
 module.exports= router;

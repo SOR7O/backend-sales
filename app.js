@@ -17,13 +17,17 @@ const PORT = 3000; // Change this to your desired port
 io.on("connection", (socket) => {
     console.log("se ha conectado");
     io.emit("connected","Te haz conectado mi perro")
-    socket.on("desdeFrontend", (valor)=>{
-        io.emit("pedidoAgregado", valor)
-        console.log("send peticion from frontend");
-        console.log(valor);
+    // socket.on("desdeFrontend", (valor)=>{
+    //     io.emit("pedidoAgregado", valor)
+    //     console.log("send peticion from frontend");
+    //     console.log(valor);
 
+    // })
+    socket.on("confirmarPedido", (pedido) => {
+        console.log("pedido confirmed");
+        io.emit("Pedidoconfirmado", 1)
     })
-    // iocontroller();
+    iocontroller(socket);
     //     io.on("desdeFrontend", (valor)=>{
     
     //     console.log("send peticion from frontend");
