@@ -101,10 +101,10 @@ const login = async (req, res, next) => {
         if (!password || !username) return res.status(200).json({ message: 'Campos vacios' });
         const user = await UserModel.findOne({ username: req.body.username });
         
-        if (!user) return res.status(200).json({ message: 'User not found' });
+        if (!user) return res.status(200).json({ message: 'Usuario o contraseña incorrecta' });
 
         const validPassword = await bcrypt.compare(req.body.password, user.password);
-        if (!validPassword) return res.status(200).json({ message: 'Contraseña incorrecta' });
+        if (!validPassword) return res.status(200).json({ message: 'Usuario o contraseña incorrecta' });
         const token = await jwt.sign({ id: user._id }, process.env.secretKey, { expiresIn: 84600 });
         res.status(200).json({ message: 'Logged in', token: token ,idUser:user._id,idCompania:user.idCompania,typeUser:user.typeUser});
     } catch (error) {

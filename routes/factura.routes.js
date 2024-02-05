@@ -8,5 +8,7 @@ router.post("/saveCai",CaiController.saveCai)
 router.post("/saveTipoFact",CaiController.saveTipoFactura)
 router.post("/updateCai",CaiController.saveCai)
 router.post("/deleteCai",CaiController.saveCai)
+router.post("/createPuntoEmision",CaiController.savePuntoEmision)
+router.get("/getPuntosEmisionByCompania/:id",CaiController.getPuntosEmisionByCompany)
 
 module.exports= router;``

@@ -45,6 +45,7 @@ const routeInventario = require("./routes/inventario.routes");
 const routeCai = require("./routes/factura.routes");
 const routeImpuesto = require("./routes/impuesto.routes");
 
+
 // Create an Express app
 
 // Enable CORS for all routes
@@ -64,7 +65,7 @@ app.use('/compania', routeCompania);
 app.use('/producto', routeProducto);
 app.use('/pedido', routePedido);
 app.use('/inventario', routeInventario);
-app.use('/cai', routeCai);
+app.use('/facturas', routeCai);
 app.use('/impuesto', routeImpuesto);
 // Start the server
 module.exports = app;

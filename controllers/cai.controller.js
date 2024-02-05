@@ -51,9 +51,9 @@ const updateCai = async (req, res, next) => {
     };
 
     // Guardar el nuevo CAI en la base de datos
-    await CaiModel.findOneAndUpdate(updateCai).then((success)=>{
+    await CaiModel.findOneAndUpdate(updateCai).then((success) => {
         res.status(200).json({ type: "ok", data: succ });
-    }).catch((error)=>{
+    }).catch((error) => {
         res.status(204).json({ type: "error", error: error })
     })
 }
@@ -102,11 +102,14 @@ const saveTipoFactura = async (req, res, next) => {
 //CRUD PUNTO DE EMISION
 const savePuntoEmision = async (req, res, next) => {
     try {
-        const { puntoEmision, descripcion, correlativo } = req.body;
+        console.log(req.body);
+        const { puntoEmision, descripcion, correlativo, idCompania, activo } = req.body;
         const savePuntoEmisionModel = new PuntoEmisionModel({
             puntoEmision: puntoEmision,
             descripcion: descripcion,
-            correlativo: correlativo
+            correlativo: correlativo,
+            idCompania: idCompania,
+            activo: activo
         });
         await savePuntoEmisionModel.save().then((success) => {
             res.status(200).json({
@@ -119,6 +122,22 @@ const savePuntoEmision = async (req, res, next) => {
             "type": "error",
             error: error
         })
+    }
+}
+
+const getPuntosEmisionByCompany = async (req, res, next) => {
+    try {
+        console.log();
+        const {id}=req.params;
+        await PuntoEmisionModel.find({"idCompania":id}).then((_data) => {
+            console.log(_data);
+            res.status(200).json({ "type": "ok", data: _data })
+        })
+        console.log(req.body);
+        console.log("req.body");
+        console.log(req.params);
+    } catch (error) {
+        res.status(400).json({ "type": "error", data: error })
     }
 }
 
@@ -151,5 +170,6 @@ module.exports = {
     deleteCai,
     saveTipoFactura,
     savePuntoEmision,
+    getPuntosEmisionByCompany,
     saveEstablecimiento
 }
