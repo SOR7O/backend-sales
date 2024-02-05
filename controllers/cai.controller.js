@@ -52,7 +52,7 @@ const updateCai = async (req, res, next) => {
 
     // Guardar el nuevo CAI en la base de datos
     await CaiModel.findOneAndUpdate(updateCai).then((success) => {
-        res.status(200).json({ type: "ok", data: succ });
+        res.status(200).json({ type: "ok", data: success });
     }).catch((error) => {
         res.status(204).json({ type: "error", error: error })
     })
@@ -102,7 +102,6 @@ const saveTipoFactura = async (req, res, next) => {
 //CRUD PUNTO DE EMISION
 const savePuntoEmision = async (req, res, next) => {
     try {
-        console.log(req.body);
         const { puntoEmision, descripcion, correlativo, idCompania, activo } = req.body;
         const savePuntoEmisionModel = new PuntoEmisionModel({
             puntoEmision: puntoEmision,
@@ -127,29 +126,73 @@ const savePuntoEmision = async (req, res, next) => {
 
 const getPuntosEmisionByCompany = async (req, res, next) => {
     try {
-        console.log();
+
         const {id}=req.params;
         await PuntoEmisionModel.find({"idCompania":id}).then((_data) => {
             console.log(_data);
             res.status(200).json({ "type": "ok", data: _data })
         })
-        console.log(req.body);
-        console.log("req.body");
-        console.log(req.params);
+
     } catch (error) {
         res.status(400).json({ "type": "error", data: error })
     }
 }
+const updatePuntoEmision= async(req, res, next)=>{
 
+    try {
+        const {id}=req.params;
+        const { puntoEmision, descripcion, correlativo, idCompania, activo } = req.body;
+        const _updatePuntoEmision ={
+            puntoEmision: puntoEmision,
+            descripcion: descripcion,
+            correlativo: correlativo,
+            idCompania: idCompania,
+            activo: activo
+        };
+        await PuntoEmisionModel.findByIdAndUpdate(id,_updatePuntoEmision).then((success) => {
+            res.status(200).json({ type: "ok", data: success });
+        }).catch((error) => {
+            res.status(400).json({ type: "error", error: error })});
+    } catch (error) {
+        res.status(400).json({ type: "error", error: error });
+    }
+}
+const deletePuntoEmision= async(req, res, next)=>{
+
+    try {
+        const {id}=req.params;
+        await PuntoEmisionModel.findByIdAndDelete(id).then((success) => {
+            res.status(200).json({ type: "ok", data: success });
+        }).catch((error) => {
+            res.status(400).json({ type: "error", error: error })});
+    } catch (error) {
+        res.status(400).json({ type: "error", error: error });
+    }
+}
 
 // CRUD ESTABLECIMIENTO
+const getEstablecimientoByCompany = async (req, res, next) => {
+    try {
+
+        const {id}=req.params;
+        await EstablecimientoModel.find({"idCompania":id}).then((_data) => {
+            console.log(_data);
+            res.status(200).json({ "type": "ok", data: _data })
+        })
+
+    } catch (error) {
+        res.status(400).json({ "type": "error", data: error })
+    }
+}
 const saveEstablecimiento = async (req, res, next) => {
     try {
-        const { establecimiento, descripcion, correlativo } = req.body;
+        const { establecimiento, descripcion, correlativo,idCompania,activo } = req.body;
         const saveEstablecimientoModel = new EstablecimientoModel({
             establecimiento: establecimiento,
             descripcion: descripcion,
-            correlativo: correlativo
+            idCompania:idCompania,
+            correlativo: correlativo,
+            activo:activo
         });
         await saveEstablecimientoModel.save().then((success) => {
             res.status(200).json({
@@ -164,6 +207,38 @@ const saveEstablecimiento = async (req, res, next) => {
         })
     }
 }
+const updateEstablecimiento= async(req, res, next)=>{
+
+    try {
+        const {id}=req.params;
+        const { establecimiento, descripcion, correlativo, idCompania, activo } = req.body;
+        const _updateEstablecimiento ={
+            establecimiento: establecimiento,
+            descripcion: descripcion,
+            idCompania:idCompania,
+            correlativo: correlativo,
+            activo:activo
+        };
+        await EstablecimientoModel.findByIdAndUpdate(id,_updateEstablecimiento).then((success) => {
+            res.status(200).json({ type: "ok", data: success });
+        }).catch((error) => {
+            res.status(400).json({ type: "error", error: error })});
+    } catch (error) {
+        res.status(400).json({ type: "error", error: error });
+    }
+}
+const deleteEstablecimiento= async(req, res, next)=>{
+
+    try {
+        const {id}=req.params;
+        await EstablecimientoModel.findByIdAndDelete(id).then((success) => {
+            res.status(200).json({ type: "ok", data: success });
+        }).catch((error) => {
+            res.status(400).json({ type: "error", error: error })});
+    } catch (error) {
+        res.status(400).json({ type: "error", error: error });
+    }
+}
 module.exports = {
     saveCai,
     getCaiByCompania,
@@ -172,5 +247,10 @@ module.exports = {
     saveTipoFactura,
     savePuntoEmision,
     getPuntosEmisionByCompany,
-    saveEstablecimiento
+    updatePuntoEmision,
+    deletePuntoEmision,
+    saveEstablecimiento,
+    getEstablecimientoByCompany,
+    updateEstablecimiento,
+    deleteEstablecimiento
 }

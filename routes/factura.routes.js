@@ -8,7 +8,17 @@ router.post("/saveCai",CaiController.saveCai)
 router.post("/saveTipoFact",CaiController.saveTipoFactura)
 router.post("/updateCai",CaiController.saveCai)
 router.post("/deleteCai",CaiController.saveCai)
+
+//rutas punto emision
 router.post("/createPuntoEmision",CaiController.savePuntoEmision)
-router.get("/getPuntosEmisionByCompania/:id",CaiController.getPuntosEmisionByCompany)
+router.post("/getPuntosEmisionByCompania/:id",CaiController.getPuntosEmisionByCompany)
+router.delete('/deletePuntoEmisionById/:id',CaiController.deletePuntoEmision)
+router.put('/updatePuntoEmisionById/:id',CaiController.updatePuntoEmision)
+
+//rutas establecimiento
+router.post("/createEstablecimiento",CaiController.saveEstablecimiento)
+router.post("/getEstablecimientoByCompania/:id",CaiController.getEstablecimientoByCompany)
+router.delete('/deleteEstablecimientoById/:id',CaiController.deleteEstablecimiento)
+router.put('/updateEstablecimientoById/:id',CaiController.updateEstablecimiento)
 
 module.exports= router;``
