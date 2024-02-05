@@ -79,10 +79,12 @@ const deleteCai = async (req, res, next) => {
 // crear el tipo de factura
 const saveTipoFactura = async (req, res, next) => {
     try {
-        const { tipoFactura, descripcion, correlativo } = req.body;
+        const { tipoFactura, descripcion, correlativo,idCompania,activo } = req.body;
         const saveTipoFacturaModel = new TipoFacturaModel({
             tipoFactura: tipoFactura,
             descripcion: descripcion,
+            idCompania: idCompania,
+            activo:activo,
             correlativo: correlativo
         });
         await saveTipoFacturaModel.save().then((success) => {
@@ -127,8 +129,8 @@ const savePuntoEmision = async (req, res, next) => {
 const getPuntosEmisionByCompany = async (req, res, next) => {
     try {
 
-        const {id}=req.params;
-        await PuntoEmisionModel.find({"idCompania":id}).then((_data) => {
+        const { id } = req.params;
+        await PuntoEmisionModel.find({ "idCompania": id }).then((_data) => {
             console.log(_data);
             res.status(200).json({ "type": "ok", data: _data })
         })
@@ -137,34 +139,36 @@ const getPuntosEmisionByCompany = async (req, res, next) => {
         res.status(400).json({ "type": "error", data: error })
     }
 }
-const updatePuntoEmision= async(req, res, next)=>{
+const updatePuntoEmision = async (req, res, next) => {
 
     try {
-        const {id}=req.params;
+        const { id } = req.params;
         const { puntoEmision, descripcion, correlativo, idCompania, activo } = req.body;
-        const _updatePuntoEmision ={
+        const _updatePuntoEmision = {
             puntoEmision: puntoEmision,
             descripcion: descripcion,
             correlativo: correlativo,
             idCompania: idCompania,
             activo: activo
         };
-        await PuntoEmisionModel.findByIdAndUpdate(id,_updatePuntoEmision).then((success) => {
+        await PuntoEmisionModel.findByIdAndUpdate(id, _updatePuntoEmision).then((success) => {
             res.status(200).json({ type: "ok", data: success });
         }).catch((error) => {
-            res.status(400).json({ type: "error", error: error })});
+            res.status(400).json({ type: "error", error: error })
+        });
     } catch (error) {
         res.status(400).json({ type: "error", error: error });
     }
 }
-const deletePuntoEmision= async(req, res, next)=>{
+const deletePuntoEmision = async (req, res, next) => {
 
     try {
-        const {id}=req.params;
+        const { id } = req.params;
         await PuntoEmisionModel.findByIdAndDelete(id).then((success) => {
             res.status(200).json({ type: "ok", data: success });
         }).catch((error) => {
-            res.status(400).json({ type: "error", error: error })});
+            res.status(400).json({ type: "error", error: error })
+        });
     } catch (error) {
         res.status(400).json({ type: "error", error: error });
     }
@@ -174,8 +178,8 @@ const deletePuntoEmision= async(req, res, next)=>{
 const getEstablecimientoByCompany = async (req, res, next) => {
     try {
 
-        const {id}=req.params;
-        await EstablecimientoModel.find({"idCompania":id}).then((_data) => {
+        const { id } = req.params;
+        await EstablecimientoModel.find({ "idCompania": id }).then((_data) => {
             console.log(_data);
             res.status(200).json({ "type": "ok", data: _data })
         })
@@ -186,13 +190,13 @@ const getEstablecimientoByCompany = async (req, res, next) => {
 }
 const saveEstablecimiento = async (req, res, next) => {
     try {
-        const { establecimiento, descripcion, correlativo,idCompania,activo } = req.body;
+        const { establecimiento, descripcion, correlativo, idCompania, activo } = req.body;
         const saveEstablecimientoModel = new EstablecimientoModel({
             establecimiento: establecimiento,
             descripcion: descripcion,
-            idCompania:idCompania,
+            idCompania: idCompania,
             correlativo: correlativo,
-            activo:activo
+            activo: activo
         });
         await saveEstablecimientoModel.save().then((success) => {
             res.status(200).json({
@@ -207,44 +211,124 @@ const saveEstablecimiento = async (req, res, next) => {
         })
     }
 }
-const updateEstablecimiento= async(req, res, next)=>{
+const updateEstablecimiento = async (req, res, next) => {
 
     try {
-        const {id}=req.params;
+        const { id } = req.params;
         const { establecimiento, descripcion, correlativo, idCompania, activo } = req.body;
-        const _updateEstablecimiento ={
+        const _updateEstablecimiento = {
             establecimiento: establecimiento,
             descripcion: descripcion,
-            idCompania:idCompania,
+            idCompania: idCompania,
             correlativo: correlativo,
-            activo:activo
+            activo: activo
         };
-        await EstablecimientoModel.findByIdAndUpdate(id,_updateEstablecimiento).then((success) => {
+        await EstablecimientoModel.findByIdAndUpdate(id, _updateEstablecimiento).then((success) => {
             res.status(200).json({ type: "ok", data: success });
         }).catch((error) => {
-            res.status(400).json({ type: "error", error: error })});
+            res.status(400).json({ type: "error", error: error })
+        });
     } catch (error) {
         res.status(400).json({ type: "error", error: error });
     }
 }
-const deleteEstablecimiento= async(req, res, next)=>{
+const deleteEstablecimiento = async (req, res, next) => {
 
     try {
-        const {id}=req.params;
+        const { id } = req.params;
         await EstablecimientoModel.findByIdAndDelete(id).then((success) => {
             res.status(200).json({ type: "ok", data: success });
         }).catch((error) => {
-            res.status(400).json({ type: "error", error: error })});
+            res.status(400).json({ type: "error", error: error })
+        });
     } catch (error) {
         res.status(400).json({ type: "error", error: error });
     }
 }
+
+
+// CRUD TIPO DE DOCUMENTOS
+const getTipoDocumentoByCompany = async (req, res, next) => {
+    try {
+
+        const { id } = req.params;
+        await TipoFacturaModel.find({ "idCompania": id }).then((_data) => {
+            console.log(_data);
+            res.status(200).json({ "type": "ok", data: _data })
+        })
+
+    } catch (error) {
+        res.status(400).json({ "type": "error", data: error })
+    }
+}
+const saveTipoDocumento = async (req, res, next) => {
+    try {
+        const { tipoFactura, descripcion, correlativo, idCompania, activo } = req.body;
+        const saveTipoDocumento = new TipoFacturaModel({
+            tipoFactura: tipoFactura,
+            descripcion: descripcion,
+            idCompania: idCompania,
+            correlativo: correlativo,
+            activo: activo
+        });
+        await saveTipoDocumento.save().then((success) => {
+            res.status(200).json({
+                type: "ok",
+                data: success
+            })
+        })
+    } catch (error) {
+        res.status(204).json({
+            "type": "error",
+            error: error
+        })
+    }
+}
+const updateTipoDocumento = async (req, res, next) => {
+
+    try {
+        const { id } = req.params;
+        const { tipoFactura, descripcion, correlativo, idCompania, activo } = req.body;
+        const _tipoFactura = {
+            tipoFactura: tipoFactura,
+            descripcion: descripcion,
+            idCompania: idCompania,
+            correlativo: correlativo,
+            activo: activo
+        };
+        await TipoFacturaModel.findByIdAndUpdate(id, _tipoFactura).then((success) => {
+            res.status(200).json({ type: "ok", data: success });
+        }).catch((error) => {
+            res.status(400).json({ type: "error", error: error })
+        });
+    } catch (error) {
+        res.status(400).json({ type: "error", error: error });
+    }
+}
+const deleteTipoDocumento = async (req, res, next) => {
+
+    try {
+        const { id } = req.params;
+        await TipoFacturaModel.findByIdAndDelete(id).then((success) => {
+            res.status(200).json({ type: "ok", data: success });
+        }).catch((error) => {
+            res.status(400).json({ type: "error", error: error })
+        });
+    } catch (error) {
+        res.status(400).json({ type: "error", error: error });
+    }
+}
+
+
 module.exports = {
     saveCai,
     getCaiByCompania,
     updateCai,
     deleteCai,
     saveTipoFactura,
+    getTipoDocumentoByCompany,
+    updateTipoDocumento,
+    deleteTipoDocumento,
     savePuntoEmision,
     getPuntosEmisionByCompany,
     updatePuntoEmision,

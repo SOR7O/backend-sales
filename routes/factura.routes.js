@@ -21,4 +21,10 @@ router.post("/getEstablecimientoByCompania/:id",CaiController.getEstablecimiento
 router.delete('/deleteEstablecimientoById/:id',CaiController.deleteEstablecimiento)
 router.put('/updateEstablecimientoById/:id',CaiController.updateEstablecimiento)
 
+//rutas Tipos de documentos
+router.post("/createTipoDocumento",CaiController.saveTipoFactura)
+router.post("/getTipoDocumentoByCompania/:id",CaiController.getTipoDocumentoByCompany)
+router.delete('/deleteTipoDocumentoById/:id',CaiController.deleteTipoDocumento)
+router.put('/updateTipoDocumentoById/:id',CaiController.updateTipoDocumento)
+
 module.exports= router;``
