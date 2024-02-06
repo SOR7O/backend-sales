@@ -14,6 +14,21 @@ const caiSchema = new mongoose.Schema({
     required: true,
     ref: 'compania'
   },
+  idPuntoEmision: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+    ref: 'puntoEmision'
+  },
+  idEstablecimiento: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+    ref: 'establecimiento'
+  },
+  idTipoDocumento: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+    ref: 'tipoFactura'
+  },
   fechaInicio: {
     type: Date,
     required: true
@@ -35,7 +50,7 @@ const caiSchema = new mongoose.Schema({
     default: true
   },
   numeroInicial: {
-    type: Number,
+    type: String,
     required: true
   }
 });

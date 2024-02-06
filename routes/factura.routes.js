@@ -3,11 +3,11 @@ const router= express.Router();
 const CaiController = require("../controllers/cai.controller");
 
 
-router.post("/getCai",CaiController.getCaiByCompania)
-router.post("/saveCai",CaiController.saveCai)
+router.post("/getCaiByCompania/:id",CaiController.getCaiByCompania)
+router.post("/createCai",CaiController.saveCai)
 router.post("/saveTipoFact",CaiController.saveTipoFactura)
-router.post("/updateCai",CaiController.saveCai)
-router.post("/deleteCai",CaiController.saveCai)
+router.put("/updateCaiById/:id",CaiController.updateCai)
+router.delete("/deleteCaiById/:id",CaiController.deleteCai)
 
 //rutas punto emision
 router.post("/createPuntoEmision",CaiController.savePuntoEmision)

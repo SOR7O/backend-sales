@@ -6,13 +6,12 @@ const TipoFacturaModel = require("../models/tipoFactura");
 
 const getCaiByCompania = async (req, res, next) => {
 
-    const { _id } = req.body;
-    await CaiModel.findById({ _id: _id }).then((succ) => {
-        console.log(succ)
+    const { id } = req.params;
+    await CaiModel.find({ idCompania: id }).populate(['idEstablecimiento','idPuntoEmision','idTipoDocumento']).then((succ) => {
         res.status(200).json({ type: "ok", data: succ })
     })
         .catch((err) => {
-            console.log(err)
+            
             res.send(
                 {
                     "res": 204,
@@ -23,68 +22,80 @@ const getCaiByCompania = async (req, res, next) => {
 }
 
 const saveCai = async (req, res, next) => {
-    const { numeroAutorizacion, fechaInicio, fechaFin, rangoInicial, rangoFinal, idCompania } = req.body;
+    
+    const { numeroAutorizacion, fechaInicio, fechaFin, rangoInicial, rangoFinal, idCompania, activo, numeroFactura,idPuntoEmision,idEstablecimiento,idTipoDocumento } = req.body;
     const nuevoCai = new CaiModel({
         numeroAutorizacion: numeroAutorizacion,
         fechaInicio: fechaInicio,
         fechaFin: fechaFin,
         rangoInicial: rangoInicial,
         rangoFinal: rangoFinal,
-        idCompania: idCompania
+        idCompania: idCompania,
+        numeroInicial: numeroFactura,
+        idPuntoEmision: idPuntoEmision['id'],
+        idTipoDocumento: idTipoDocumento['id'],
+        idEstablecimiento: idEstablecimiento['id'],
+        activo: activo
     });
 
     // Guardar el nuevo CAI en la base de datos
-    await nuevoCai.save().then((succ) => { res.status(200).json({ type: "ok", data: succ }) })
-        .catch((err) => { res.send({ "res": 204, "data": err.error, "message": "Ha ocurrido un error comunicate con el administrador" }) });
+    await nuevoCai.save().then((succ) => {  res.status(200).json({ type: "ok", data: succ }) })
+        .catch((err) => { res.status({ "res": 204, "data": err.error, "message": "Ha ocurrido un error comunicate con el administrador" }) });
 
 }
 const updateCai = async (req, res, next) => {
-    const { numeroAutorizacion, fechaInicio, fechaFin, rangoInicial, rangoFinal, idCompania, _id } = req.body;
-    const updateCai = {
-        _id: _id,
-        numeroAutorizacion: numeroAutorizacion,
-        fechaInicio: fechaInicio,
-        fechaFin: fechaFin,
-        rangoInicial: rangoInicial,
-        rangoFinal: rangoFinal,
-        idCompania: idCompania
-    };
+    try {
+        const { id } = req.params;
+        
+        const { numeroAutorizacion, fechaInicio, fechaFin, rangoInicial, rangoFinal, idCompania, activo, numeroInicial ,idPuntoEmision,idEstablecimiento,idTipoDocumento} = req.body;
+        const _updateCai = {
+            numeroAutorizacion: numeroAutorizacion,
+            fechaInicio: fechaInicio,
+            fechaFin: fechaFin,
+            rangoInicial: rangoInicial,
+            rangoFinal: rangoFinal,
+            idCompania: idCompania,
+            numeroInicial: numeroInicial,
+            idPuntoEmision: idPuntoEmision['id'],
+            idTipoDocumento: idTipoDocumento['id'],
+            idEstablecimiento: idEstablecimiento['id'],
+            activo: activo,
+        };
 
-    // Guardar el nuevo CAI en la base de datos
-    await CaiModel.findOneAndUpdate(updateCai).then((success) => {
-        res.status(200).json({ type: "ok", data: success });
-    }).catch((error) => {
-        res.status(204).json({ type: "error", error: error })
-    })
+        // Guardar el nuevo CAI en la base de datos
+        await CaiModel.findByIdAndUpdate(id, _updateCai).then((success) => {
+            res.status(200).json({ type: "ok", data: success });
+        }).catch((error) => {
+            res.status(400).json({ type: "error", error: error })
+        });
+    } catch (error) {
+        res.status(400).json({ type: "error", error: error });
+    }
 }
 
 const deleteCai = async (req, res, next) => {
-    const { _id } = req.body;
-    const deleteCai = {
-        _id: _id,
-
-    };
-    CaiModel.findOneAndDelete(
-        deleteCai, // query to find the user
-        (err, deleted) => {
-            if (err) {
-                res.status(204).json({ type: "error", eroror: error });
-            } else {
-                res.status(200).json({ type: "ok", data: deleted });
-            }
-        }
-    );
+    try {
+        const { id } = req.params;
+        await CaiModel.findByIdAndDelete(id).then((success) => {
+            res.status(200).json({ type: "ok", data: success });
+        }).catch((error) => {
+            res.status(400).json({ type: "error", error: error })
+        });
+    } catch (error) {
+        res.status(400).json({ type: "error", error: error });
+    }
 }
+
 
 // crear el tipo de factura
 const saveTipoFactura = async (req, res, next) => {
     try {
-        const { tipoFactura, descripcion, correlativo,idCompania,activo } = req.body;
+        const { tipoFactura, descripcion, correlativo, idCompania, activo } = req.body;
         const saveTipoFacturaModel = new TipoFacturaModel({
             tipoFactura: tipoFactura,
             descripcion: descripcion,
             idCompania: idCompania,
-            activo:activo,
+            activo: activo,
             correlativo: correlativo
         });
         await saveTipoFacturaModel.save().then((success) => {
@@ -131,7 +142,7 @@ const getPuntosEmisionByCompany = async (req, res, next) => {
 
         const { id } = req.params;
         await PuntoEmisionModel.find({ "idCompania": id }).then((_data) => {
-            console.log(_data);
+            
             res.status(200).json({ "type": "ok", data: _data })
         })
 
@@ -180,7 +191,7 @@ const getEstablecimientoByCompany = async (req, res, next) => {
 
         const { id } = req.params;
         await EstablecimientoModel.find({ "idCompania": id }).then((_data) => {
-            console.log(_data);
+            
             res.status(200).json({ "type": "ok", data: _data })
         })
 
@@ -253,7 +264,7 @@ const getTipoDocumentoByCompany = async (req, res, next) => {
 
         const { id } = req.params;
         await TipoFacturaModel.find({ "idCompania": id }).then((_data) => {
-            console.log(_data);
+            
             res.status(200).json({ "type": "ok", data: _data })
         })
 
