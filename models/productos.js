@@ -13,7 +13,8 @@ const productoSchema = new mongoose.Schema({
     imagen: {
         type:String
     },
-    precio: {type:mongoose.Types.Decimal128, required:true}
+    precio: {type:mongoose.Types.Decimal128, required:true},
+    imp: {type:mongoose.Types.Decimal128}
 });
 
 const ProductoModel = mongoose.model("productos", productoSchema);

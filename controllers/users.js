@@ -108,7 +108,8 @@ const login = async (req, res, next) => {
         const token = await jwt.sign({ id: user._id }, process.env.secretKey, { expiresIn: 84600 });
         res.status(200).json({ message: 'Logged in', token: token ,idUser:user._id,idCompania:user.idCompania,typeUser:user.typeUser});
     } catch (error) {
-        res.status(400).json({ type: "error", message: 'Ha ocurrido un error comunicate con el administrador' })
+        console.log(error);
+        res.status(400).json({ type: "error", message: 'Ha ocurrido un error comunicate con el administrador', error:error })
     }
 }
 

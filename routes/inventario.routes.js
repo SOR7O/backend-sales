@@ -8,7 +8,7 @@ const authenticate= require("../middleware/authenticate")
 router.get('/getInventario',authenticate.authMiddleware,Inventario.getInventario);
 router.get('/getInventarioByCompania/:id',authenticate.authMiddleware,Inventario.getinventarioByCompania);
 router.get('/getInventarioByUser/:id',authenticate.authMiddleware,Inventario.getinventarioByUser);
-router.post('/addInventario',Inventario.createInventario);
+router.post('/createInventario',Inventario.createInventario);
 router.post('/updateInventario/:id',Inventario.updateInventario);
 router.post('/deleteInventario/:id',Inventario.deleteInventario);
 

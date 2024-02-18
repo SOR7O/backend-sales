@@ -44,7 +44,7 @@ const getProductoByUser = async (req, res, next) => {
 }
 const createProducto = async (req, res, next) => {
 
-    const { nombre, descripcion, idCompania, idUser, imagen, precio } = req.body;
+    const { nombre, descripcion, idCompania, idUser, imagen, precio,imp } = req.body;
     try {
         const createProduct = new ProductoModel({
             nombre: nombre,
@@ -52,7 +52,8 @@ const createProducto = async (req, res, next) => {
             idCompania: idCompania,
             imagen: imagen,
             idUser: idUser,
-            precio: precio
+            precio: precio,
+            imp:imp
         });
 
         await createProduct.save().then((succ) => {
@@ -71,7 +72,7 @@ const createProducto = async (req, res, next) => {
     }
 }
 const updateProducto = async (req, res, next) => {
-    const { nombre, descripcion, idCompania, idUser, imagen, precio, _id } = req.body;
+    const { nombre,imp, descripcion, idCompania, idUser, imagen, precio, _id } = req.body;
     try {
         const updateProduct = ({
             nombre: nombre,
@@ -79,7 +80,8 @@ const updateProducto = async (req, res, next) => {
             idCompania: idCompania,
             imagen: imagen,
             idUser: idUser,
-            precio: precio
+            precio: precio,
+            imp:imp
         });
         await ProductoModel.findByIdAndUpdate({ _id: _id }, updateProduct).then((success) => {
             res.status(202).json({ type: "ok", data: success })
