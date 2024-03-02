@@ -7,7 +7,7 @@ const getCompania = async(req, res, next) => {
     })
 }
 const createCompania = async (req, res, next) => {
-    const { nombre, telefono, direccion, correo, logo, nombrePropietario } = req.body;
+    const { nombre, telefono, direccion, correo, logo, nombrePropietario,rtn } = req.body;
     try {
 
         const createCompania = new CompaniaModel({
@@ -17,6 +17,7 @@ const createCompania = async (req, res, next) => {
             correo: correo,
             logo: logo,
             nombrePropietario: nombrePropietario,
+            rtn:rtn
         })
 
 
@@ -28,8 +29,8 @@ const createCompania = async (req, res, next) => {
 }
 const updateCompania = async (req, res, next) => {
 
-    const { nombre, telefono, direccion, correo, logo, nombrePropietario ,_id,is_activated} = req.body;
-    
+    const { nombre, telefono, direccion, correo, logo, nombrePropietario ,_id,is_activated,rtn} = req.body;
+
     try {
 
         const updateCompania = ({
@@ -39,13 +40,14 @@ const updateCompania = async (req, res, next) => {
             correo: correo,
             logo: logo,
             nombrePropietario: nombrePropietario,
-            is_activated:is_activated
+            is_activated:is_activated,
+            rtn:rtn
         })
 
         await CompaniaModel.findByIdAndUpdate({_id:_id}, updateCompania ).then((success) => {
             res.status(202).json({ type: "ok"})
         }).catch((err) => {
-            
+
             res.status(204).json({ type: "ok", message: "Ha ocurrido un error, comunicate con el administrador", error: err })
         })
     } catch (error) {
@@ -62,7 +64,7 @@ const deleteCompania = async (req, res, next) => {
             res.status(200).json({ type: "ok", message: "Eliminado correctamente", data: succ })
         }).catch((err) => res.status(400).json({ "message": "Ha ocurrido un error" }))
     } catch (error) {
-        
+
         res.status(400).json({ type: "error", message: 'Ha ocurrido un error comunicate con el administrador' })
     }
 }

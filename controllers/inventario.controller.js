@@ -98,11 +98,11 @@ const deleteInventario = async (req, res, next) => {
       await InventarioDetalleModel.deleteMany({
         idInventario: id,
       }).then(async (deleted) => {
-        for (let i = 0; i < _invs.length; i++) {
-          await InventarioDetalleEntradaModel.findOneAndDelete({
-            idInventarioDetalle: _invs[i]["_id"],
-          });
-        }
+        // for (let i = 0; i < _invs.length; i++) {
+        await InventarioDetalleEntradaModel.deleteMany({
+          idInventarioDetalle: _invs[i]["_id"],
+        });
+        // }
         res
           .status(200)
           .json({ type: "ok", message: "Eliminado correctamente" });
@@ -154,13 +154,13 @@ const updateInventario = async (req, res, next) => {
             }
 
             await InventarioDetalleEntradaModel.insertMany(invEntrada);
-            res.status(200).json({ type: "ok", message: "Actualizado correctamente" });
+            res
+              .status(200)
+              .json({ type: "ok", message: "Actualizado correctamente" });
           },
         );
       },
     );
-   
-
   } catch (error) {
     res.status(400).json({
       type: "error",

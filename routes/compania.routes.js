@@ -1,13 +1,29 @@
 const express = require("express");
-const router= express.Router();
-const Compania= require("../controllers/compania.controllers");
+const router = express.Router();
+const CompaniaController = require("../controllers/compania.controllers");
 
 //REQUERIMOS EL MIDDLEWARE PARA ACCESSO
-const authenticate= require("../middleware/authenticate")
+const AuthController = require("../middleware/authenticate");
 //RUTAS DE CRUD DE COMPANIAS
-router.get('/getCompanias',Compania.getCompania);
-router.post('/createCompania',Compania.createCompania);
-router.post('/updateCompania',Compania.updateCompania);
-router.post('/deleteCompania',Compania.deleteCompania);
+router.post(
+  "/getCompanias",
+  AuthController.authMiddleware,
+  CompaniaController.getCompania,
+);
+router.post(
+  "/createCompania",
+  AuthController.authMiddleware,
+  CompaniaController.createCompania,
+);
+router.post(
+  "/updateCompania",
+  AuthController.authMiddleware,
+  CompaniaController.updateCompania,
+);
+router.post(
+  "/deleteCompania",
+  AuthController.authMiddleware,
+  CompaniaController.deleteCompania,
+);
 
-module.exports= router;
+module.exports = router;

@@ -1,27 +1,39 @@
 const express = require("express");
 const router = express.Router();
-const Inventario = require("../controllers/inventario.controller");
+const InventarioController = require("../controllers/inventario.controller");
 
 //REQUERIMOS EL MIDDLEWARE PARA ACCESSO
-const authenticate = require("../middleware/authenticate");
+const AuthController = require("../middleware/authenticate");
 //RUTAS DE CRUD DE Invenarios
 router.get(
   "/getInventario",
-  authenticate.authMiddleware,
-  Inventario.getInventario,
+  AuthController.authMiddleware,
+  InventarioController.getInventario,
 );
 router.post(
   "/getInventarioByCompany/:id",
-  authenticate.authMiddleware,
-  Inventario.getinventarioByCompania,
+  AuthController.authMiddleware,
+  InventarioController.getinventarioByCompania,
 );
 router.get(
   "/getInventarioByUser/:id",
-  authenticate.authMiddleware,
-  Inventario.getinventarioByUser,
+  AuthController.authMiddleware,
+  InventarioController.getinventarioByUser,
 );
-router.post("/createInventario", Inventario.createInventario);
-router.put("/updateInventario", Inventario.updateInventario);
-router.delete("/deleteInventarioById/:id", Inventario.deleteInventario);
+router.post(
+  "/createInventario",
+  AuthController.authMiddleware,
+  InventarioController.createInventario,
+);
+router.put(
+  "/updateInventario",
+  AuthController.authMiddleware,
+  InventarioController.updateInventario,
+);
+router.delete(
+  "/deleteInventarioById/:id",
+  AuthController.authMiddleware,
+  InventarioController.deleteInventario,
+);
 
 module.exports = router;

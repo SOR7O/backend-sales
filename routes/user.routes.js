@@ -1,20 +1,45 @@
-const express= require("express");
+const express = require("express");
 const routes = express.Router();
-const users= require("../controllers/users")
+const UsersController = require("../controllers/users");
+const AuthController = require("../middleware/authenticate");
 
 // ruta para crud de usuarios
-routes.get("/getUser", users.getUser);
-routes.post("/getUserByCompania", users.getUser);
+routes.get("/getUser", AuthController.authMiddleware, UsersController.getUser);
+routes.post(
+  "/getUserByCompania",
+  AuthController.authMiddleware,
+  UsersController.getUser,
+);
 
-routes.post("/createUser", users.createUser);
-routes.post("/login", users.login);
+routes.post("/createUser", UsersController.createUser);
+routes.post("/login", UsersController.login);
 
-routes.post("/updateUser", users.updateUser);
-routes.post("/deleteUser", users.deleteUser);
+routes.post(
+  "/updateUser",
+  AuthController.authMiddleware,
+  UsersController.updateUser,
+);
+routes.post(
+  "/deleteUser",
+  AuthController.authMiddleware,
+  UsersController.deleteUser,
+);
 
 //ruta para crear roles
-routes.post("/addRole",users.createRoles);
-routes.get("/getRole",users.getRoles);
-routes.post("/updateRole",users.updateRole);
-routes.post("/deleteRole",users.deleteRole);
-module.exports= routes;
+routes.post(
+  "/addRole",
+  AuthController.authMiddleware,
+  UsersController.createRoles,
+);
+routes.get("/getRole", AuthController.authMiddleware, UsersController.getRoles);
+routes.post(
+  "/updateRole",
+  AuthController.authMiddleware,
+  UsersController.updateRole,
+);
+routes.post(
+  "/deleteRole",
+  AuthController.authMiddleware,
+  UsersController.deleteRole,
+);
+module.exports = routes;

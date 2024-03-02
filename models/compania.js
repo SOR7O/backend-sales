@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const companiaSchema = new mongoose.Schema({
     nombre: { type: String, required: true },
-    logo: { 
+    logo: {
         data: Buffer,
         contentType: String
     },
@@ -15,7 +15,8 @@ const companiaSchema = new mongoose.Schema({
         type: Boolean,
         required: false,
         default: false,
-    }
+    },
+    rtn:{type:String, required:true}
 }, {
     timestamps: true,
 })
